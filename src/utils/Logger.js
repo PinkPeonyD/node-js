@@ -33,6 +33,12 @@ class Logger {
       console.log(`[${timestamp}]`, ...data);
     }
   }
+
+  error(...data) {
+    if (this.#isQuietModeEnabled) return;
+    const timestamp = new Date().toISOString();
+    console.error(`[${timestamp}] ERROR:`, ...data);
+  }
 }
 
 module.exports = Logger;

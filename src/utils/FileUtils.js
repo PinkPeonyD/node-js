@@ -1,12 +1,17 @@
-const fs = require('fs');
+const fs = require('fs/promises');
 
 /**
  * Saves data to a JSON file
  * @param {any} data - Data to save (will be stringified)
  * @param {string} filePath - Path to the JSON file
  */
-function saveToJSON(data, filePath) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+async function saveStudents(data, filePath) {
+  try {
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
+    return true;
+  } catch (error) {
+    throw new Error(`Failed to save students: ${error.message}`);
+  }
 }
 
 /**
@@ -14,9 +19,13 @@ function saveToJSON(data, filePath) {
  * @param {string} filePath - Path to the JSON file
  * @returns {any} Parsed JSON data
  */
-function loadJSON(filePath) {
-  const raw = fs.readFileSync(filePath, 'utf8');
-  return JSON.parse(raw);
+async function loadStudents(filePath) {
+  try {
+    const raw = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(raw);
+  } catch (error) {
+    throw new Error(`Failed to load students: ${error.message}`);
+  }
 }
 
-module.exports = { saveToJSON, loadJSON };
+module.exports = { saveStudents, loadStudents };

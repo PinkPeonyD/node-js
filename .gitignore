@@ -111,3 +111,4 @@ build/
 # Temporary files
 tmp/
 temp/
+backups/
