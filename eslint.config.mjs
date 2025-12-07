@@ -3,6 +3,18 @@ import prettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
 export default [
+  {
+    ignores: [
+      'node_modules/',
+      'dist/',
+      'build/',
+      '*.log',
+      '.DS_Store',
+      'coverage/',
+      'frontend/',
+      'frontend/**',
+    ],
+  },
   js.configs.recommended,
   prettierConfig,
   {
@@ -31,13 +43,5 @@ export default [
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
     },
-    ignores: [
-      'node_modules/',
-      'dist/',
-      'build/',
-      '*.log',
-      '.DS_Store',
-      'coverage/',
-    ],
   },
 ];
