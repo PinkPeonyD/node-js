@@ -4,7 +4,7 @@ const BackupReporter = require('./backup-reporter');
 const { loadStudents } = require('./utils/FileUtils');
 const Logger = require('./utils/Logger');
 const Student = require('./models/Student');
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
 
 // CLI args
@@ -25,7 +25,8 @@ const BACKUP_DIR = path.join(__dirname, '..', 'backups');
 
 // Load students from file or use initial data
 async function loadInitialStudents() {
-  if (fs.existsSync(DATA_FILE)) {
+  try {
+    await fs.access(DATA_FILE);
     logger.log('Loading students from file...');
     try {
       const data = await loadStudents(DATA_FILE);
@@ -43,14 +44,14 @@ async function loadInitialStudents() {
         new Student('3', 'Mike Johnson', 18, 2),
       ];
     }
+  } catch {
+    logger.log('No existing data file found. Using initial data');
+    return [
+      new Student('1', 'John Doe', 20, 2),
+      new Student('2', 'Jane Smith', 23, 3),
+      new Student('3', 'Mike Johnson', 18, 2),
+    ];
   }
-
-  logger.log('No existing data file found. Using initial data');
-  return [
-    new Student('1', 'John Doe', 20, 2),
-    new Student('2', 'Jane Smith', 23, 3),
-    new Student('3', 'Mike Johnson', 18, 2),
-  ];
 }
 
 async function main() {
