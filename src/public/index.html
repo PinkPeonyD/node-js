@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume | Node.js Student Manager</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__text">
+        <p class="eyebrow">Backend Developer</p>
+        <h1>DashaShamraeva</h1>
+        <p class="lead">
+          Building student management tools, REST APIs, and automation scripts
+          with Node.js.
+        </p>
+        <div class="hero__actions">
+          <a class="btn" href="mailto:email@example.com">email@example.com</a>
+          <a class="btn btn--ghost" href="https://github.com" target="_blank"
+            >GitHub</a
+          >
+        </div>
+      </div>
+      <div class="hero__badge">
+        <span class="pill">Node.js</span>
+        <span class="pill">REST</span>
+        <span class="pill">Automation</span>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2>Experience</h2>
+        <ul class="cards">
+          <li class="card">
+            <h3>Student Management CLI</h3>
+            <p>
+              Designed event-driven services for managing students, persistence,
+              and backups with Node.js core modules.
+            </p>
+            <p class="meta">2024 — now</p>
+          </li>
+          <li class="card">
+            <h3>Automation & Reporting</h3>
+            <p>
+              Implemented backup scheduling, reporting utilities, and data
+              exports to JSON for long-running processes.
+            </p>
+            <p class="meta">2023 — 2024</p>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Skills</h2>
+        <div class="chips">
+          <span class="chip">Node.js</span>
+          <span class="chip">HTTP</span>
+          <span class="chip">Express</span>
+          <span class="chip">File I/O</span>
+          <span class="chip">Events</span>
+          <span class="chip">JSON</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>API Endpoints (demo)</h2>
+        <div class="list">
+          <div class="list__item">
+            <div>
+              <p class="label">Hello World</p>
+              <p>GET http://localhost:3000/hello</p>
+            </div>
+            <a class="pill" href="/hello">Try</a>
+          </div>
+          <div class="list__item">
+            <div>
+              <p class="label">Request Details</p>
+              <p>GET http://localhost:3000/details</p>
+            </div>
+            <a class="pill" href="/details">Inspect</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p id="year"></p>
+    </footer>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
