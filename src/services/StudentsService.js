@@ -1,6 +1,6 @@
 const EventEmitter = require('events');
 const Student = require('../models/Student');
-const { saveStudents } = require('../utils/FileUtils');
+const { saveStudents, loadStudents } = require('../utils/FileUtils');
 
 class StudentsService extends EventEmitter {
   constructor(initialStudents = [], options = {}) {
@@ -39,6 +39,73 @@ class StudentsService extends EventEmitter {
     } catch (error) {
       this.emit('student:error', error);
       throw new Error(`Failed to remove student: ${error.message}`);
+    }
+  }
+
+  async updateStudent(id, updates = {}) {
+    const existing = this.getStudentById(id);
+    if (!existing) {
+      const notFoundError = new Error(`Student with id ${id} not found`);
+      this.emit('student:error', notFoundError);
+      throw notFoundError;
+    }
+
+    const allowed = ['name', 'age', 'group'];
+    const payload = Object.fromEntries(
+      Object.entries(updates).filter(
+        ([key, value]) => allowed.includes(key) && value !== undefined
+      )
+    );
+
+    if (Object.keys(payload).length === 0) {
+      throw new Error('No valid fields provided for update');
+    }
+
+    try {
+      Object.assign(existing, payload);
+      await this.persistStudents();
+      this.emit('student:updated', existing);
+      return existing;
+    } catch (error) {
+      this.emit('student:error', error);
+      throw new Error(`Failed to update student: ${error.message}`);
+    }
+  }
+
+  async replaceAll(studentsArray = []) {
+    if (!Array.isArray(studentsArray)) {
+      throw new Error('New students collection must be an array');
+    }
+
+    try {
+      const now = Date.now();
+      this.students = studentsArray.map(
+        (s, index) =>
+          new Student(String(s.id ?? `${now}-${index}`), s.name, s.age, s.group)
+      );
+      await this.persistStudents();
+      this.emit('student:replaced', this.getAllStudents());
+      return this.getAllStudents();
+    } catch (error) {
+      this.emit('student:error', error);
+      throw new Error(`Failed to replace students: ${error.message}`);
+    }
+  }
+
+  async loadFromFile(filePath = this.storagePath) {
+    if (!filePath) {
+      throw new Error('No storage path configured for loading');
+    }
+    try {
+      const data = await loadStudents(filePath);
+      this.students = data.map(
+        (item) => new Student(item.id, item.name, item.age, item.group)
+      );
+      this.emit('student:loaded', this.getAllStudents());
+      return this.getAllStudents();
+    } catch (error) {
+      this.emit('student:error', error);
+      throw new Error(`Failed to load students: ${error.message}`);
     }
   }
 

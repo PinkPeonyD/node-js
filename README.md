@@ -2,12 +2,6 @@
 npm install
 ```
 
-```bash
-rm students.json
-
-node src/index.js
-
-node src/index.js --verbose
-
-node src/index.js --quiet
-
+- Базовый сервер: `npm run start:basic`  http://localhost:3000/hello, /details, /.
+- API: `npm run start:api` (порт 3001 по умолчанию).
+- Фронт: `cd frontend && npm run dev` (порт 5173, берёт адрес из `.env.local`).
